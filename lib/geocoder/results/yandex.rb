@@ -92,6 +92,15 @@ module Geocoder::Result
     def precision
       @data['GeoObject']['metaDataProperty']['GeocoderMetaData']['precision']
     end
+    
+    def bounds
+      if (bound_hash = find_in_yandex_result('boundedBy', @data))
+        {
+          left_bottom: bound_hash['Envelope']['lowerCorner'].split(' '),
+          upper_top: bound_hash['Envelope']['upperCorner'].split(' ')
+        }
+      end
+    end
 
     private # ----------------------------------------------------------------
 
